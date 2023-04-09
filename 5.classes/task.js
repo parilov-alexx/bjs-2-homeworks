@@ -79,11 +79,56 @@ class Library {
 	}
 
 	findBookBy(type, value) {
-		let findNumber = books.find(type => this.book.type === type || this.book.value === value);
+		let findNumber = this.books.find(el => el[type] === value);
 		if (findNumber === undefined) {
 			return null;
 		} else {
-			return this.books[findNumber];
+			return findNumber;
 		}
 	}
+
+	giveBookByName(bookName) {
+		let findBook = this.books.findIndex(el => el.name === bookName);
+		if (findBook === -1) {
+			return null;
+		} else {
+			let givenBook = this.books.splice(findBook, 1);
+			return givenBook[0];
+
+		}
+
+	}
+}
+
+class Student {
+	constructor(name) {
+		this.name = name;
+		this.marks = {};
+	}
+
+	addMark(mark, subject) {
+		if (mark >= 2 && mark <= 5) {
+			if (this.marks[subject] === undefined) {
+				this.marks[subject] = [];
+				this.marks[subject].push(mark);
+			} else {
+				this.marks[subject].push(mark);
+			}
+		}
+	}
+
+	getAverageBySubject(subject) {
+		if (this.marks[subject] === undefined) {
+			return 0;
+		} else {
+			return this.marks[subject].reduce((acc, item) => acc + item, 0) / this.marks[subject].length;
+		}
+	}
+
+	getAverage() {
+		let subjectNames = Object.keys(this.marks);
+		return subjectNames.reduce((acc, item) => acc + this.getAverageBySubject(item), 0) / subjectNames.length;
+
+	}
+
 }
